@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  title String
+  descrition String
+  photoUrl String?
+  completed Boolean @default(false)
+  createdAt DateTime @default(now())
+  dueDate DateTime?
+  priority String?
+  author user @relation(fields: [userId], references: [id])
+  userId String
+  tags Tag[] 
+  expired Boolean @default(false)
+}
+
+model user {
+id    String   @unique @id @default(uuid())
+email String @unique
+username String? @unique
+name String?
+avatar_url String?
+created_at DateTime @default(now())
+tasks Task[]
+tags Tag[]
+}
+
+model Tag {
+  id        Int     @id @default(autoincrement())
+  userId    String
+  author      user    @relation(fields: [userId], references: [id])
+  name      String
+  color     String? // hex or token
+  tasks     Task[]
+
+  @@unique([userId, name])
+} 

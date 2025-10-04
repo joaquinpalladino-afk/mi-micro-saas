@@ -2,7 +2,6 @@
 
 import { NextResponse } from "next/server";
 import { createSupabaseClient } from "@/libs/supabase/server";
-import { Provider } from "@supabase/supabase-js";
 //import {createClient} from "@/libs/supabase/client";
 import { redirect } from "next/navigation";
 import {z} from "zod";
